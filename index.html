@@ -3,333 +3,275 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Cartoon Story Maker</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#08051d;color:white;font-family:Arial,sans-serif}
-.page{display:none;min-height:100vh;padding:18px}
+body{margin:0;background:#10111b;color:white;font-family:Arial,sans-serif}
+header{background:#191b2c;padding:20px;text-align:center;color:#9298ff;font-size:23px;font-weight:bold}
+.page{display:none;padding:18px;max-width:600px;margin:auto}
 .page.active{display:block}
-h1{text-align:center;font-size:34px;background:linear-gradient(90deg,#00eaff,#c76aff,#ffcc35);color:transparent;background-clip:text}
-h2,h3{text-align:center}
-.hero{text-align:center;padding:20px 8px}
-.hero .emoji{font-size:100px}
-.tagline{color:#e4b9ff;font-size:17px}
-.card{background:linear-gradient(145deg,#21105b,#101039);border:1px solid #824aff;border-radius:22px;padding:18px;margin:16px 0;box-shadow:0 0 18px #742dff45}
-.upload{display:block;border:2px dashed #a45bff;border-radius:20px;padding:28px 10px;text-align:center;cursor:pointer;background:#160e3e}
-.big{font-size:55px}
-button{border:0;border-radius:30px;padding:14px;color:white;font-size:15px;font-weight:bold;cursor:pointer}
-.mainbtn{width:100%;background:linear-gradient(90deg,#00cfff,#a000ff,#ed35e9);box-shadow:0 0 20px #9c32ff;margin-top:15px}
-.secondary{background:#34206c;border:1px solid #9361ff}
-input,textarea,select{width:100%;padding:14px;border-radius:13px;background:#100c30;color:white;border:1px solid #7551ca;font-size:15px;margin:8px 0}
-textarea{height:110px;resize:vertical}
-#photoPreview{width:100%;max-height:290px;object-fit:contain;border-radius:18px;display:none;background:#08051d}
-.options{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.opt{background:#191044;border:1px solid #6242b2;border-radius:15px;padding:14px 4px;text-align:center;cursor:pointer;font-size:14px}
-.opt span{font-size:28px;display:block;margin-bottom:7px}
-.opt.selected{border:2px solid #00eaff;background:#372078;box-shadow:0 0 12px #00cfff70}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.small{font-size:12px;color:#c7b9e9}
-.header{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.header button{background:#21154d}
-.voicebox{background:#100c30;border:1px dashed #9361ff;border-radius:16px;padding:15px;text-align:center}
-.voicebuttons{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.voicebuttons button{flex:1;min-width:90px}
-#voiceName{color:#80edff;overflow-wrap:anywhere}
-#status{text-align:center;color:#7fffd4;margin:12px;overflow-wrap:anywhere}
-footer{text-align:center;color:#a99acb;font-size:13px;padding:15px}
+.card{background:#1b1d30;padding:16px;border-radius:15px;margin:15px 0}
+h2{color:#9298ff;font-size:20px}
+label{display:block;margin:13px 0 7px}
+input,select,textarea{width:100%;padding:13px;border:1px solid #454765;border-radius:9px;background:#111321;color:white;font-size:15px}
+textarea{min-height:110px;resize:vertical}
+button,.filebtn{display:block;width:100%;padding:14px;margin-top:12px;border:0;border-radius:10px;background:#656cff;color:white;font-size:16px;font-weight:bold;text-align:center}
+button:disabled{opacity:.5}
+.secondary{background:#343750}
+video,img{width:100%;border-radius:12px;margin-top:12px}
+#photoPreview{max-height:300px;object-fit:contain}
+#resultVideo{max-height:500px;background:#000}
+.status{color:#b9bdff;line-height:1.5;overflow-wrap:anywhere}
+.small{font-size:12px;color:#aaa}
 </style>
 </head>
 <body>
 
-<section id="home" class="page active">
-<div class="hero">
-<h1>👑 AI Cartoon<br>Story Maker</h1>
-<p class="tagline">Bring Your Cartoon to Life...</p>
-<div class="emoji">🎭</div>
-<h2>Animate Your Story!</h2>
-</div>
+<header>✨ AI Cartoon Story Maker</header>
+
+<!-- PAGE 1 -->
+<section id="page1" class="page active">
 <div class="card">
-<label for="photo" class="upload">
-<div class="big">🖼️</div>
 <h2>Upload Cartoon Photo</h2>
-<p>Tap to choose your photo</p>
-<p class="small">PNG / JPG supported</p>
-</label>
-<input type="file" id="photo" accept="image/*" hidden>
+<p>Select your cartoon image to begin.</p>
+<label class="filebtn" for="photoInput">📷 Choose Photo</label>
+<input type="file" id="photoInput" accept="image/*" hidden>
+<img id="photoPreview" style="display:none">
+<button onclick="openEditor()">Continue to Editor</button>
 </div>
-<div class="card">
-<h3>💡 Quick Tips</h3>
-<p>✅ Use a clear cartoon image</p>
-<p>✅ Write an interesting story</p>
-<p>✅ Select your voice</p>
-</div>
-<button class="mainbtn" onclick="openEditor()">✨ Let's Create Magic ✨</button>
-<footer>Your Imagination... Our AI Power...</footer>
 </section>
 
-<section id="editor" class="page">
-<div class="header">
-<button onclick="goHome()">← Back</button>
-<b>👑 AI Cartoon Studio</b>
-<button onclick="goHome()">⌂</button>
-</div>
-
+<!-- PAGE 2 -->
+<section id="page2" class="page">
 <div class="card">
-<h3>🎬 Cartoon Preview</h3>
-<img id="photoPreview" alt="Cartoon Preview">
-<div id="emptyPreview" style="text-align:center;font-size:65px">🎭</div>
-<p class="small" style="text-align:center">Your selected cartoon</p>
-</div>
+<h2>🎬 Create Your Cartoon Video</h2>
 
-<div class="card">
-<h3>🎞️ Animation Options</h3>
-<div class="options">
-<div class="opt selected" onclick="choose(this,'Talking')"><span>🗣️</span>Talking</div>
-<div class="opt" onclick="choose(this,'Dancing')"><span>💃</span>Dancing</div>
-<div class="opt" onclick="choose(this,'Walking')"><span>🚶</span>Walking</div>
-<div class="opt" onclick="choose(this,'Jumping')"><span>🦘</span>Jumping</div>
-<div class="opt" onclick="choose(this,'Waving')"><span>👋</span>Waving</div>
-<div class="opt" onclick="choose(this,'Running')"><span>🏃</span>Running</div>
-</div>
-</div>
-
-<div class="card">
-<h3>✍️ Write Your Story</h3>
+<label>Story</label>
 <textarea id="story" maxlength="500" placeholder="Write your cartoon story here..."></textarea>
-<p class="small" id="count">0 / 500</p>
-</div>
 
-<div class="card">
-<h3>🎙️ Upload Your Own Voice</h3>
-<label for="voiceFile" class="upload">
-<div class="big">🎧</div>
-<h3>Choose Voice File</h3>
-<p>Upload MP3 / WAV Audio</p>
-<p class="small">Select audio from your mobile</p>
-</label>
-<input type="file" id="voiceFile" accept="audio/*" hidden>
-<p id="voiceName">No voice selected</p>
-<audio id="audioPreview" controls style="display:none;width:100%;margin-top:12px"></audio>
-<div class="voicebuttons">
-<button class="secondary" onclick="playVoice()">▶ Play</button>
-<button class="secondary" onclick="removeVoice()">🗑 Delete</button>
-</div>
-</div>
-
-<div class="row">
-<div class="card">
-<h3>🌍 Language</h3>
-<select id="language">
-<option value="Marathi">Marathi</option>
-<option value="Hindi" selected>Hindi</option>
-<option value="English">English</option>
+<label>Animation</label>
+<select id="animation">
+<option>Talking</option>
+<option>Dancing</option>
+<option>Walking</option>
+<option>Jumping</option>
+<option>Waving</option>
+<option>Running</option>
 </select>
-</div>
-<div class="card">
-<h3>🎙️ AI Voice</h3>
+
+<label>Language</label>
+<select id="language">
+<option>Hindi</option>
+<option>Marathi</option>
+<option>English</option>
+</select>
+
+<label>AI Voice Style</label>
 <select id="voice">
 <option>Funny Boy</option>
 <option>Sweet Girl</option>
-<option selected>Storyteller</option>
+<option>Storyteller</option>
 <option>Deep Voice</option>
 </select>
-</div>
+
+<label>Voice File (Optional)</label>
+<input type="file" id="voiceFile" accept="audio/mp3,audio/wav,audio/mpeg,audio/*">
+<audio id="voicePreview" controls style="display:none;width:100%;margin-top:10px"></audio>
+<button class="secondary" onclick="removeVoice()">Delete Voice File</button>
+<p class="small">Note: Uploaded voice is available for preview here; the current backend does not yet use it in generated video.</p>
+
+<label>Video Duration</label>
+<select id="duration">
+<option value="5">5 Seconds</option>
+<option value="8">8 Seconds</option>
+<option value="10" selected>10 Seconds</option>
+</select>
+<p class="small">The current AI video model supports approximately 3–10 seconds per generation.</p>
+
+<label>Quality</label>
+<select id="quality">
+<option>HD</option>
+<option>Standard</option>
+</select>
+
+<button id="generateBtn" onclick="generateVideo()">🚀 Generate Video</button>
+<p id="status" class="status">Ready to create your cartoon video.</p>
 </div>
 
-<div class="row">
 <div class="card">
-<h3>⏱️ Duration</h3>
-<select id="duration"><option>15 Seconds</option></select>
+<h2>🎥 Video Preview</h2>
+<video id="resultVideo" controls playsinline style="display:none"></video>
+<button id="downloadBtn" onclick="downloadVideo()" style="display:none">⬇ Download MP4</button>
+<button class="secondary" onclick="goHome()">Back to Photo Upload</button>
 </div>
-<div class="card">
-<h3>💎 Quality</h3>
-<select id="quality"><option>HD Quality</option></select>
-</div>
-</div>
-
-<button class="mainbtn" id="generateBtn" onclick="generate()">✨ Generate Video ➜</button>
-<p id="status">Backend connected. Ready for testing.</p>
-<div class="row">
-<button class="secondary" onclick="preview()">▶ Preview</button>
-<button class="secondary" onclick="downloadVideo()">⬇ Download MP4</button>
-</div>
-<footer>AI Cartoon Story Maker</footer>
 </section>
 
 <script>
 const BACKEND_URL = "https://ai-cartoon-story-maker.onrender.com";
 
-let selectedAnimation = "Talking";
-let selectedPhoto = null;
-let selectedVoice = null;
-let generatedVideoUrl = null;
+let selectedImage = "";
+let generatedVideoUrl = "";
+let voiceUrl = "";
 
-const photo = document.getElementById("photo");
-const previewImage = document.getElementById("photoPreview");
+const photoInput = document.getElementById("photoInput");
+const photoPreview = document.getElementById("photoPreview");
 const voiceFile = document.getElementById("voiceFile");
-const audioPreview = document.getElementById("audioPreview");
+const voicePreview = document.getElementById("voicePreview");
 
-photo.addEventListener("change", function(){
- const file = this.files[0];
- if(!file) return;
- if(!file.type.startsWith("image/")){
-  alert("Please select an image");
-  return;
- }
- selectedPhoto = file;
- previewImage.src = URL.createObjectURL(file);
- previewImage.style.display = "block";
- document.getElementById("emptyPreview").style.display = "none";
+photoInput.addEventListener("change", function(){
+  const file = this.files[0];
+  if(!file) return;
+
+  if(!file.type.startsWith("image/")){
+    alert("Please select an image.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e){
+    selectedImage = e.target.result;
+    photoPreview.src = selectedImage;
+    photoPreview.style.display = "block";
+  };
+  reader.readAsDataURL(file);
 });
 
+voiceFile.addEventListener("change", function(){
+  const file = this.files[0];
+  if(!file) return;
+
+  if(voiceUrl) URL.revokeObjectURL(voiceUrl);
+  voiceUrl = URL.createObjectURL(file);
+  voicePreview.src = voiceUrl;
+  voicePreview.style.display = "block";
+});
+
+function removeVoice(){
+  voiceFile.value = "";
+  voicePreview.pause();
+  voicePreview.removeAttribute("src");
+  voicePreview.style.display = "none";
+  if(voiceUrl) URL.revokeObjectURL(voiceUrl);
+  voiceUrl = "";
+}
+
 function openEditor(){
- if(!selectedPhoto){
-  alert("Please upload a cartoon photo first!");
-  return;
- }
- document.getElementById("home").classList.remove("active");
- document.getElementById("editor").classList.add("active");
+  if(!selectedImage){
+    alert("Please choose a photo first.");
+    return;
+  }
+  showPage("page2");
 }
 
 function goHome(){
- document.getElementById("editor").classList.remove("active");
- document.getElementById("home").classList.add("active");
+  showPage("page1");
 }
 
-function choose(element,name){
- document.querySelectorAll(".opt").forEach(x=>x.classList.remove("selected"));
- element.classList.add("selected");
- selectedAnimation = name;
+function showPage(id){
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
 }
 
-document.getElementById("story").addEventListener("input",function(){
- document.getElementById("count").innerText = this.value.length+" / 500";
-});
+async function generateVideo(){
+  const story = document.getElementById("story").value.trim();
+  const status = document.getElementById("status");
+  const button = document.getElementById("generateBtn");
+  const video = document.getElementById("resultVideo");
+  const downloadBtn = document.getElementById("downloadBtn");
 
-voiceFile.addEventListener("change",function(){
- const file = this.files[0];
- if(!file) return;
- if(!file.type.startsWith("audio/")){
-  alert("Please select an audio file!");
-  this.value = "";
-  return;
- }
- selectedVoice = file;
- audioPreview.src = URL.createObjectURL(file);
- audioPreview.style.display = "block";
- document.getElementById("voiceName").innerText = "Selected: "+file.name;
-});
-
-function playVoice(){
- if(!selectedVoice){
-  alert("Please choose a voice file first!");
-  return;
- }
- audioPreview.play();
-}
-
-function removeVoice(){
- audioPreview.pause();
- audioPreview.removeAttribute("src");
- audioPreview.load();
- audioPreview.style.display = "none";
- selectedVoice = null;
- voiceFile.value = "";
- document.getElementById("voiceName").innerText = "No voice selected";
-}
-
-function fileToBase64(file){
- return new Promise((resolve,reject)=>{
-  const reader = new FileReader();
-  reader.onload = ()=>resolve(reader.result);
-  reader.onerror = reject;
-  reader.readAsDataURL(file);
- });
-}
-
-async function generate(){
- const story = document.getElementById("story").value.trim();
- const status = document.getElementById("status");
- const button = document.getElementById("generateBtn");
-
- if(!selectedPhoto){
-  alert("Upload a cartoon photo first!");
-  return;
- }
- if(!story){
-  alert("Please write your story!");
-  return;
- }
-
- button.disabled = true;
- button.innerText = "⏳ Connecting...";
- status.innerText = "Sending your photo and story to the backend...";
-
- try{
-  const image = await fileToBase64(selectedPhoto);
-
-  const response = await fetch(BACKEND_URL + "/api/generate",{
-   method:"POST",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({
-    story:story,
-    language:document.getElementById("language").value,
-    voice:document.getElementById("voice").value,
-    animation:selectedAnimation,
-    duration:document.getElementById("duration").value,
-    quality:document.getElementById("quality").value,
-    image:image
-   })
-  });
-
-  const result = await response.json();
-
-  if(!response.ok){
-   status.innerText = result.message || result.error || "Backend response: "+response.status;
-   return;
+  if(!selectedImage){
+    status.textContent = "Please upload a photo first.";
+    return;
   }
 
-  if(result.videoUrl){
-   generatedVideoUrl = result.videoUrl;
-   status.innerText = "Video generated successfully!";
-  }else{
-   status.innerText = result.message || "Backend received the request.";
+  if(!story){
+    status.textContent = "Please enter your story.";
+    return;
   }
 
- }catch(error){
-  console.error(error);
-  status.innerText = "Could not connect to backend. Please try again.";
- }finally{
-  button.disabled = false;
-  button.innerText = "✨ Generate Video ➜";
- }
-}
+  button.disabled = true;
+  button.textContent = "Generating...";
+  status.textContent = "Connecting to AI video generator. Please wait...";
+  video.style.display = "none";
+  downloadBtn.style.display = "none";
 
-function preview(){
- if(generatedVideoUrl){
-  window.open(generatedVideoUrl,"_blank");
-  return;
- }
- if(selectedVoice){
-  playVoice();
- }else if(selectedPhoto){
-  alert("Photo preview is ready. Video generation is not configured yet.");
- }else{
-  alert("Upload a photo first!");
- }
+  if(generatedVideoUrl){
+    URL.revokeObjectURL(generatedVideoUrl);
+    generatedVideoUrl = "";
+  }
+
+  try{
+    const response = await fetch(BACKEND_URL + "/api/generate", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        story:story,
+        language:document.getElementById("language").value,
+        voice:document.getElementById("voice").value,
+        animation:document.getElementById("animation").value,
+        image:selectedImage,
+        duration:Number(document.getElementById("duration").value),
+        quality:document.getElementById("quality").value
+      })
+    });
+
+    const contentType = response.headers.get("content-type") || "";
+
+    if(!response.ok){
+      let message = "Video generation failed.";
+      try{
+        const errorData = await response.json();
+        message = errorData.error || errorData.message || message;
+      }catch(e){}
+      throw new Error(message);
+    }
+
+    if(!contentType.includes("video/")){
+      let message = "The server did not return an MP4 video.";
+      try{
+        const data = await response.json();
+        message = data.error || data.message || message;
+      }catch(e){}
+      throw new Error(message);
+    }
+
+    const blob = await response.blob();
+
+    if(blob.size === 0){
+      throw new Error("The generated video is empty.");
+    }
+
+    generatedVideoUrl = URL.createObjectURL(blob);
+    video.src = generatedVideoUrl;
+    video.style.display = "block";
+    downloadBtn.style.display = "block";
+    status.textContent = "✅ Video generated successfully! Preview or download it.";
+
+  }catch(error){
+    console.error(error);
+    status.textContent = "Error: " + error.message;
+  }finally{
+    button.disabled = false;
+    button.textContent = "🚀 Generate Video";
+  }
 }
 
 function downloadVideo(){
- if(!generatedVideoUrl){
-  alert("No generated video is available yet.");
-  return;
- }
- const a = document.createElement("a");
- a.href = generatedVideoUrl;
- a.download = "AI-Cartoon-Story.mp4";
- a.click();
+  if(!generatedVideoUrl){
+    alert("Generate a video first.");
+    return;
+  }
+
+  const link = document.createElement("a");
+  link.href = generatedVideoUrl;
+  link.download = "cartoon-story.mp4";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
 }
 </script>
+
 </body>
 </html>
